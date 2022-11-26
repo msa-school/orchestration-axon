@@ -48,5 +48,17 @@ public class Inventory  {
         setStock(getStock() - event.getQty());
     }
 
+    @CommandHandler
+    public void handle(IncreaseInventoryCommand command){
+        InventoryDecreased event = new InventoryDecreased();
+        BeanUtils.copyProperties(command, event);
+        apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(InventoryIncreased event){
+        setStock(getStock() + event.getQty());
+    }
+
 
 }

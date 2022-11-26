@@ -9,12 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 //import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 
 @SpringBootApplication
-//@EnableBinding(KafkaProcessor.class)
-@EnableFeignClients
 public class OrderApplication {
     public static ApplicationContext applicationContext;
     public static void main(String[] args) {

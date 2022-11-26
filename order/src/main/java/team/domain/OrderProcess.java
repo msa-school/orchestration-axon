@@ -29,11 +29,38 @@ public class OrderProcess {
         command.setQty(orderPlaced.getQty().intValue());
         command.setOrderId(orderPlaced.getId());
 
-        commandGateway.send(command);
+        commandGateway
+            .send(command)
+            .exceptionally(ex -> {
+                OrderCancelCommand orderCancelCommand = new OrderCancelCommand();
+                orderCancelCommand.setId(orderPlaced.getId());
+                return commandGateway.send(orderCancelCommand);
+            });
     }
 
-    @SagaEventHandler(associationProperty = "id", keyName = "productId")
+    @SagaEventHandler(associationProperty = "id", keyName = "orderId")
     public void handle(InventoryDecreased event){
+
+        System.out.println("Saga continued with orderId = " + event.getOrderId());
+
+        //send the create shipping command
+        AddToDeliveryListCommand command = new AddToDeliveryListCommand();
+        command.setId(event.getOrderId());
+        command.setOrderId(event.getOrderId());
+    
+        commandGateway.send(command)
+            .exceptionally(ex ->{
+                IncreaseInventoryCommand increaseInventoryCommand = new IncreaseInventoryCommand();
+                increaseInventoryCommand.setId(event.getId());
+                increaseInventoryCommand.setOrderId(event.getOrderId());
+                increaseInventoryCommand.setQty(event.getQty());
+
+                return commandGateway.send(increaseInventoryCommand);
+            });
+    }
+
+    @SagaEventHandler(associationProperty = "id", keyName = "orderId")
+    public void handle(DeliveryStartedEvent event){
 
         System.out.println("Saga continued with orderId = " + event.getOrderId());
 

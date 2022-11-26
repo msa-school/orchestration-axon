@@ -34,7 +34,7 @@ public class OrdersEventHandler {
         //     return order;
         // });
 
-        orders.remove(event.getId());
+        orders.get(event.getId()).on(event);
     }
 
     @EventHandler

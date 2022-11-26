@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>labshopeventsourcing</groupId>
-	<artifactId>order</artifactId>
+	<artifactId>delivery</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>order</name>
+	<name>delivery</name>
 	<description>An Axon Framework Sample Application</description>
 	<properties>
 		<java.version>11</java.version>
@@ -103,3 +103,4 @@
 	</build>
 
 </project>
+
