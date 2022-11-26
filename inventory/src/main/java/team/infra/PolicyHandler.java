@@ -55,6 +55,12 @@ public class PolicyHandler{
         inventory.on(event);
     }
 
+    @EventHandler
+    public void on(InventoryIncreased event) {
+        Inventory inventory = inventories.get(event.getId());
+        inventory.on(event);
+    }
+
     @QueryHandler
     public List<Inventory> handle(FindAllInventoryQuery query) {
         return new ArrayList<>(inventories.values());

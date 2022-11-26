@@ -50,7 +50,7 @@ public class Inventory  {
 
     @CommandHandler
     public void handle(IncreaseInventoryCommand command){
-        InventoryDecreased event = new InventoryDecreased();
+        InventoryIncreased event = new InventoryIncreased();
         BeanUtils.copyProperties(command, event);
         apply(event);
     }

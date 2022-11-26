@@ -7,8 +7,6 @@ import static org.axonframework.modelling.command.AggregateLifecycle.*;
 import org.axonframework.spring.stereotype.Aggregate;
 
 import org.springframework.beans.BeanUtils;
-import java.util.List;
-
 import lombok.Data;
 import lombok.ToString;
 
@@ -21,7 +19,6 @@ import labshopeventsourcing.event.*;
 @Aggregate
 @Data
 @ToString
-@NoArgConstructor
 public class DeliveryAggregate {
 
     @AggregateIdentifier

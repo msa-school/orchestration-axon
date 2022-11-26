@@ -1,6 +1,7 @@
 package team.domain;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.axonframework.modelling.saga.EndSaga;
 import org.axonframework.modelling.saga.SagaEventHandler;
 import org.axonframework.modelling.saga.SagaLifecycle;
 import org.axonframework.modelling.saga.StartSaga;
@@ -34,11 +35,12 @@ public class OrderProcess {
             .exceptionally(ex -> {
                 OrderCancelCommand orderCancelCommand = new OrderCancelCommand();
                 orderCancelCommand.setId(orderPlaced.getId());
+
                 return commandGateway.send(orderCancelCommand);
             });
     }
 
-    @SagaEventHandler(associationProperty = "id", keyName = "orderId")
+    @SagaEventHandler(associationProperty = "orderId", keyName = "id")
     public void handle(InventoryDecreased event){
 
         System.out.println("Saga continued with orderId = " + event.getOrderId());
@@ -59,7 +61,15 @@ public class OrderProcess {
             });
     }
 
-    @SagaEventHandler(associationProperty = "id", keyName = "orderId")
+    @SagaEventHandler(associationProperty = "orderId", keyName = "id")
+    public void compensateOrder(InventoryIncreased event){
+        OrderCancelCommand orderCancelCommand = new OrderCancelCommand();
+        orderCancelCommand.setId(event.getOrderId());
+
+        commandGateway.send(orderCancelCommand);
+    }
+
+    @SagaEventHandler(associationProperty = "orderId", keyName = "id")
     public void handle(DeliveryStartedEvent event){
 
         System.out.println("Saga continued with orderId = " + event.getOrderId());
@@ -72,10 +82,11 @@ public class OrderProcess {
     }
 
     @SagaEventHandler(associationProperty = "id", keyName = "orderId")
+    @EndSaga
     public void handle(OrderApproved event){
 
         System.out.println("end saga");
-        SagaLifecycle.end();
+        //SagaLifecycle.end();
     }
 
 }
