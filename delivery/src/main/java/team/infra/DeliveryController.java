@@ -1,4 +1,4 @@
-package labshopeventsourcing.api;
+package team.infra;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -17,8 +17,9 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
-import labshopeventsourcing.aggregate.*;
-import labshopeventsourcing.command.*;
+import team.domain.*;
+import team.domain.AddToDeliveryListCommand;
+import team.domain.ReturnDeliveryCommand;
 
 @RestController
 public class DeliveryController {

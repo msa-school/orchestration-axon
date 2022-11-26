@@ -1,4 +1,4 @@
-package labshopeventsourcing.aggregate;
+package team.domain;
 
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -9,11 +9,6 @@ import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 import lombok.Data;
 import lombok.ToString;
-
-
-
-import labshopeventsourcing.command.*;
-import labshopeventsourcing.event.*;
 
 
 @Aggregate
@@ -43,6 +38,7 @@ public class DeliveryAggregate {
     public DeliveryAggregate(AddToDeliveryListCommand command){
 
         DeliveryStartedEvent event = new DeliveryStartedEvent();
+        event.setId(command.getOrderId());
         BeanUtils.copyProperties(command, event);     
         apply(event);
 

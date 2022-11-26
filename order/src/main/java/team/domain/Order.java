@@ -77,7 +77,7 @@ public class Order {
     @EventSourcingHandler
     public void on(OrderCanceled event) {
         this.status = "CANCELLED";
-        markDeleted();
+       // markDeleted();
     }
 
     @EventSourcingHandler

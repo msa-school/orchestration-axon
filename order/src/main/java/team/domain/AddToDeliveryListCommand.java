@@ -10,7 +10,7 @@ import lombok.ToString;
 @Data
 public class AddToDeliveryListCommand {
 
-    @TargetAggregateIdentifier
+   // @TargetAggregateIdentifier
     private Long id;
     private String address;
     private String customerId;

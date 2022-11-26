@@ -1,4 +1,4 @@
-package labshopeventsourcing.command;
+package team.domain;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
@@ -8,7 +8,7 @@ import lombok.ToString;
 
 @ToString
 @Data
-public class AddToDeliveryListCommand {
+public class ReturnDeliveryCommand {
 
     @TargetAggregateIdentifier
     private Long id;

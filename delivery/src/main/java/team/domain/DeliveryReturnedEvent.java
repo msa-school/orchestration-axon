@@ -1,4 +1,4 @@
-package labshopeventsourcing.event;
+package team.domain;
 
 import lombok.Data;
 import lombok.ToString;

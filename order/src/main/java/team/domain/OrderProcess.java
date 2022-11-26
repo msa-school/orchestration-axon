@@ -47,7 +47,7 @@ public class OrderProcess {
 
         //send the create shipping command
         AddToDeliveryListCommand command = new AddToDeliveryListCommand();
-        command.setId(event.getOrderId());
+        command.setId(System.currentTimeMillis());
         command.setOrderId(event.getOrderId());
     
         commandGateway.send(command)
