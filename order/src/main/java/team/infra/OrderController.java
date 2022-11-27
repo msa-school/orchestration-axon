@@ -5,6 +5,11 @@ import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,11 +39,28 @@ public class OrderController {
   @RequestMapping(value = "/orders",
         method = RequestMethod.POST,
         produces = "application/json;charset=UTF-8")
-  public CompletableFuture<String> order(@RequestBody OrderCommand orderCommand)
+  public  CompletableFuture<Object> order(@RequestBody OrderCommand orderCommand)
         throws Exception {
           System.out.println("##### /order/order  called #####");
 
-          return commandGateway.send(orderCommand);
+          return commandGateway
+            .send(orderCommand)
+            .thenApply(
+                  id -> {
+                        Order order = new Order((Long)id);
+                        EntityModel<Order> model = EntityModel.of(order);
+                        model
+                              .add(Link.of("/orders/" + order.getId()).withSelfRel());
+
+                        return new ResponseEntity<>(model, HttpStatus.OK);
+
+                  }
+            );
+            // .exceptionally(ex -> ex
+                  
+            // )
+
+            // ;
   }
 
 
